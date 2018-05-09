@@ -45,20 +45,26 @@ public class GlobeSortClient {
         long endPing = System.nanoTime();
         System.out.println("Ping successful.");
         long pingTime = (endPing-startPing)/2;
-        System.out.println("Ping Latency is : " + pingTime);
+        System.out.println("Ping Latency is : " + pingTime + " ns");
 
         System.out.println("Requesting server to sort array");
         IntArray request = IntArray.newBuilder().addAllValues(Arrays.asList(values)).build();
         long startSort = System.nanoTime();
         IntArray response = serverStub.sortIntegers(request);
         long endSort = System.nanoTime();
-        long invoTime = endSort-startSort;
-        long sortTime = response.getTime();
-        long oneWayTime = (invoTime-sortTime)/2;
-	long nanoInSec = 1000000000;
-        System.out.println("Full Invocation Time is : " + invoTime/nanoInSec);
-        System.out.println("Server Sorting Time is : " + sortTime);
-        System.out.println("One-Way Throughput Time is : " + oneWayTime);
+
+	double nanoInSec = 1000000000;
+        double invoTime = (endSort-startSort)/nanoInSec;
+
+        double sortTime = (response.getTime())/nanoInSec;
+
+        double oneWayTime = (invoTime-sortTime)/2;
+
+	double recsPerSec = values.length / invoTime;
+	double bytesPerSec = (values.length * 4) / oneWayTime;
+
+        System.out.println("Records/Sec Throughput is : " + recsPerSec);
+        System.out.println("Bytes/Sec One-Way Throughput Time is : " + bytesPerSec);
         System.out.println("Sorted array");
     }
 
