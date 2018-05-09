@@ -44,7 +44,7 @@ public class GlobeSortClient {
         serverStub.ping(Empty.newBuilder().build());
         long endPing = System.nanoTime();
         System.out.println("Ping successful.");
-        long pingTime = (endPing-startPing)/2;
+        long pingTime = endPing - startPing;
         System.out.println("Ping Latency is : " + pingTime + " ns");
 
         System.out.println("Requesting server to sort array");
@@ -60,8 +60,8 @@ public class GlobeSortClient {
 
         double oneWayTime = (invoTime-sortTime)/2;
 
-	double recsPerSec = values.length / invoTime;
-	double bytesPerSec = (values.length * 4) / oneWayTime;
+	long recsPerSec = (long) ( values.length / invoTime );
+	long bytesPerSec = (long) ( (values.length * 4) / oneWayTime );
 
         System.out.println("Records/Sec Throughput is : " + recsPerSec);
         System.out.println("Bytes/Sec One-Way Throughput Time is : " + bytesPerSec);
