@@ -55,7 +55,8 @@ public class GlobeSortClient {
         long invoTime = endSort-startSort;
         long sortTime = response.getTime();
         long oneWayTime = (invoTime-sortTime)/2;
-        System.out.println("Full Invocation Time is : " + invoTime);
+	long nanoInSec = 1000000000
+        System.out.println("Full Invocation Time is : " + invoTime/nanoInSec);
         System.out.println("Server Sorting Time is : " + sortTime);
         System.out.println("One-Way Throughput Time is : " + oneWayTime);
         System.out.println("Sorted array");
